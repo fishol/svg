@@ -1,165 +1,335 @@
 <html>
   <head>
-    
-    <meta name="robots" content="noindex, nofollow">
-    <link rel="icon" href="./ico.png">
-    <title>无法访问此网站</title>
+    <meta charset="UTF-8"> <!-- 设置字符编码为 UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 设置视口以适应不同设备宽度 -->
+    <meta name="description" content="将任意图片改成SVG格式"/>
+    <meta name="keywords" content="fishol，svg格式"/>
+    <link rel="icon" href="./logo.png">
+    <title>SVG格式转换器</title>
 
-    
     <style>
-      /* 设置整体样式 */
+      /* 全局样式 */
       body {
-        font-family: 'Segoe UI', Arial, 'Microsoft Yahei', sans-serif, -apple-system, BlinkMacSystemFont;
+        font-family: Arial, sans-serif;
         line-height: 1.6;
-        color: rgb(154, 160, 166);
-        background-color: #202124;
-        margin: 0;
-        padding: 15px;
-        font-size: 1em;
-        padding-top: 13vh; /* 增加顶部内边距，使整体内容下移 */
+        color: #333;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f0f0f0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        box-sizing: border-box;
+      }
+
+      /* 主容器样式 */
+      .container {
+        background-color: #fff;
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        max-width: 800px;
+        margin: 0 auto;
+        width: 80%;
       }
 
       #logo {
-            height: 42px;
-            width: 33px;
-            background-image: url(err_1.png);
-            background-size: cover;             /* 背景全覆盖 */
-            background-position: center;        /* 图片居中定位 */
-            background-repeat: no-repeat;       /* 背景不重复 */
-            transition: all .4s linear;  /* 小图标变大+变色 所用时间 */
-        }
-
-        /* 鼠标悬停时显示的图片 */
-      #logo:hover {
-          height: 42px;
-          width: 33px;
-          background-image: url(err_3.png); /* 鼠标悬停时显示的图片 */
-          background-size: cover;             /* 背景全覆盖 */
-          background-position: center;        /* 图片居中定位 */
-          background-repeat: no-repeat;       /* 背景不重复 */
-          /* transform: scale(1.2);       按比例放大 */
+        display: block;
+        width: 100px;
+        height: 100px;
+        margin: 50px auto 50px;
+        object-fit: cover;
       }
 
-      /* 设置容器样式 */
-      .container {
-        max-width: 600px;
-        height: 390px;
-        margin: 0 auto;
-        background-color: #202124;
-        border-radius: 8px;
-        padding: 30px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0);
-      }
-      /* 设置标题样式 */
-      h1 {
-        color: rgb(154, 160, 166);
-        font-size: 20px;
-        /* font-weight: bold; */
-        font-weight: bold;
-        margin-bottom: 10px;
-      }
-      /* 设置错误代码样式 */
-      .error-code {
-        color: rgb(154, 160, 166);
-        font-size: 12px;
-        margin-top: 8px;
+      /* 拖放区域样式 */
+      #dropzone {
+        border: 2px dashed #3cf;
+        border-radius: 10px;
+        padding: 15px;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
         margin-bottom: 50px;
       }
-      /* 设置建议列表样式 */
-      .suggestions {
-        margin-top: -15px;
-        padding-left: 40px;
+
+      #dropzone:hover {
+        background-color: #ecf0f1;
       }
-      /* 设置按钮容器样式 */
+
+      /* 隐藏上传文件输入框 */
+      #fileInput {
+        display: none;
+      }
+
+      /* 按钮容器样式 */
       .button-container {
         display: flex;
-        justify-content: space-between;
-        margin-top: 24px;
+        justify-content: center;
+        margin-top: 20px;
       }
-      /* 设置按钮通用样式 */
+
+      /* 按钮样式 */
       .button {
-        display: inline-block;
-        padding: 8px 16px;
-        border-radius: 20px;
-        text-decoration: none;
-        font-weight: 500;
-        font-size: 0.75em;
-        transition: background-color 0.3s;
+        display: block;
+        background-color: #fff;
+        color: #3cf;
+        border: 2px solid #3cf;
+        padding: 10px 20px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        margin: 0 10px;
+        flex: 1;
+        text-align: center;
       }
-      /* 设置主要按钮样式 */
-      .primary-button {
-        background-color: rgb(138, 180, 248);
-        color: #000;
+
+      .button:hover {
+        background-color: #3cf;
+        color: #fff;
       }
-      .primary-button:hover {
-        background-color: rgb(138, 180, 248);
-      }
-      /* 设置次要按钮样式 */
-      .secondary-button {
-        background-color: transparent;
-        color: rgb(138, 180, 248);
-        border: 1px solid rgb(95, 99, 104);
-      }
-      .secondary-button:hover {
-        background-color: rgba(26, 115, 232, 0.04);
-      }
-      /* 设置详情部分样式 */
-      .details {
+
+      /* 图+代码 输出结果容器样式 */
+      #resultContainer {
         display: none;
-        padding-top: 16px;
-        margin-top: 24px;
-        /* border-top: 1px solid #dadce0; 很长的线 */
-        font-size: 14px;
-        color: rgb(154, 160, 166);
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* SVG预览区域样式 */
+      #svgPreview {
+        margin-top: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        max-width: 100%;
+        overflow: auto;
+      }
+
+      /* SVG代码显示区域样式 */
+      #result {
+        width: 100%;
+        margin-top: 50px;
+        margin-bottom: 50px;
+        border: 1px solid #ddd;
+        padding: 10px;
+        background-color: #f9f9f9;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        position: relative;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        box-sizing: border-box;
+        overflow-x: hidden;       /* 隐藏横向滚动条 */
+        overflow-y: auto;
+        max-height: 200px;
+      }
+
+      #result:hover {
+        background-color: #e9e9e9;
+      }
+
+      /* 弹出通知 水平+垂直居中 */
+      #notification {
+        position: fixed;
+        top: 31%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #3cf;
+        color: #fff;
+        padding: 10px 40px;
+        border-radius: 5px;
+        display: none;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+       }
+
+      /* 页脚样式 */
+      footer {
+        margin-top: 30px;
+        text-align: center;
+        font-size: 1em;
+        color: #777;
+      }
+
+      a {
+        text-decoration: none;
+        color: #777;
+      }
+
+      /* 响应式设计 */
+      @media (max-width: 600px) {
+        body {
+          padding: 10px;
+        }
+        .container {
+          padding: 10px;
+        }
+        h1 {
+          font-size: 1.5em;
+        }
       }
     </style>
   </head>
-
   <body>
     <div class="container">
-      <!-- 显示断开连接图标 -->
-      <div id="logo"></div>
-
-      <br/>
-      
-      <!-- 显示标题 -->
-      <h1>无法访问此网站</h1>
-      <!-- 显示错误信息 -->
-      <p><b>www.fishol.cn</b> 的响应时间过长。</p>
-      <!-- 显示建议操作 -->
-      <p>请尝试以下操作：</p>
-      <ul class="suggestions">
-        <li>检查网络连接。</li>
-        <li>运行 Windows 网络诊断。</li>
-        <li style="color: #8ab4f8;">请检查数据跨境安全网关设置。</li>
-      </ul>
-      <!-- 显示错误代码 -->
-      <div class="error-code">ERR_FUCK_GREAT_FIREWALL</div>
-      <!-- 显示按钮 -->
-      <div class="button-container">
-        <a href="#" class="button primary-button" onclick="window.location.reload();">重新加载</a>
-        <a href="#" class="button secondary-button" id="detailsButton" onclick="toggleDetails()">详情</a>
+      <!-- 示例图片 -->
+      <img id="logo" src="./logo.png">
+      <!-- 拖放区域 -->
+      <div id="dropzone">
+        <p>拖放/选择图片，将其改成SVG格式。</p>
+        <input type="file" id="fileInput" accept="image/*">
       </div>
-      <!-- 显示详细信息 -->
-      <div id="details" class="details">
-        根据相关法律法规，您的访问已被数据跨境安全网关拦截，不予以显示。
+
+      <!-- 结果显示区域 -->
+      <div id="resultContainer">
+        <!-- 按钮容器 -->
+        <div class="button-container">
+            <!-- 下载按钮 -->
+            <button id="downloadBtn" class="button" style="display: none;">下载SVG文件</button>
+            <!-- 复制按钮 -->
+            <button id="copyBtn" class="button" style="display: none;">复制SVG代码</button>
+        </div>
+        <div id="svgPreview"></div>
+        <div id="result"></div>
       </div>
     </div>
-    
-  <script>
-    // 切换详情显示/隐藏的函数
-    function toggleDetails() {
-      var details = document.getElementById('details');
-      var detailsButton = document.getElementById('detailsButton');
-      if (details.style.display === 'none' || details.style.display === '') {
-        details.style.display = 'block';
-        detailsButton.textContent = '隐藏详细信息';
-      } else {
-        details.style.display = 'none';
-        detailsButton.textContent = '详情';
-      }
-    }
-  </script>
 
+    <!-- 通知元素 -->
+    <div id="notification">SVG 代码已复制到剪贴板！</div>
+
+    <!-- 页脚 -->
+    <footer>
+      <p>©FishOnline Studio</p>
+      <nav>
+        <a href="https://www.fishol.net">域名</a> |
+        <a href="https://www.fishol.me">博客</a> |
+        <a href="https://www.fishol.org">导航</a>
+      </nav>
+    </footer>
+
+    <script>
+      // 获取DOM元素
+      const dropzone = document.getElementById('dropzone');
+      const fileInput = document.getElementById('fileInput');
+      const downloadBtn = document.getElementById('downloadBtn');
+      const copyBtn = document.getElementById('copyBtn');
+      const result = document.getElementById('result');
+      const svgPreview = document.getElementById('svgPreview');
+      const notification = document.getElementById('notification');
+      const resultContainer = document.getElementById('resultContainer');
+
+      // 存储生成的SVG内容
+      let svgContent = '';
+
+      // 事件监听器设置
+      dropzone.addEventListener('click', () => fileInput.click());
+      fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+      dropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropzone.style.backgroundColor = '#ecf0f1';
+      });
+      dropzone.addEventListener('dragleave', () => dropzone.style.backgroundColor = '');
+      dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.style.backgroundColor = '';
+        handleFiles(e.dataTransfer.files);
+      });
+
+      // 处理选中的文件
+      function handleFiles(files) {
+        if (files.length > 0) {
+          const file = files[0];
+          if (file.type.startsWith('image/')) {
+            convertToSVG(file);
+          } else {
+            alert('请选择图片文件。');
+          }
+        }
+      }
+
+      // 将图片转换为SVG
+      function convertToSVG(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            // 设置最大尺寸
+            const maxSize = 800;
+            let svgWidth = img.width;
+            let svgHeight = img.height;
+
+            // 如果图片尺寸过大，进行等比缩放
+            if (svgWidth > maxSize || svgHeight > maxSize) {
+              if (svgWidth > svgHeight) {
+                svgHeight = (maxSize / svgWidth) * svgHeight;
+                svgWidth = maxSize;
+              } else {
+                svgWidth = (maxSize / svgHeight) * svgWidth;
+                svgHeight = maxSize;
+              }
+            }
+
+            // 生成SVG内容
+            svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${svgWidth}" height="${svgHeight}" viewBox="0 0 ${img.width} ${img.height}">
+  <image href="${e.target.result}" width="${img.width}" height="${img.height}"/>
+</svg>`;
+
+            // 更新UI
+            result.textContent = svgContent;
+            svgPreview.innerHTML = svgContent;
+            resultContainer.style.display = 'flex';
+            downloadBtn.style.display = 'block';
+            copyBtn.style.display = 'block';
+
+            // 确保SVG预览保持原始大小
+            const svgElement = svgPreview.querySelector('svg');
+            svgElement.style.maxWidth = '100%';
+            svgElement.style.height = 'auto';
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      // 下载按钮点击事件
+      downloadBtn.addEventListener('click', () => {
+        const blob = new Blob([svgContent], { type: 'image/svg+xml' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'fishol_img.svg';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      });
+
+      // 复制按钮点击事件
+      copyBtn.addEventListener('click', copySVGCode);
+      // 结果div点击事件
+      result.addEventListener('click', copySVGCode);
+
+      // 复制SVG代码功能
+      function copySVGCode() {
+        navigator.clipboard.writeText(svgContent)
+          .then(showNotification)
+          .catch(err => console.error('Failed to copy text: ', err));
+      }
+
+      // 显示通知
+      function showNotification() {
+        notification.style.display = 'block';
+        setTimeout(() => notification.style.opacity = '1', 10);
+        setTimeout(() => {
+          notification.style.opacity = '0';
+          setTimeout(() => notification.style.display = 'none', 300);
+        }, 2000);
+      }
+    </script>
   </body>
 </html>
