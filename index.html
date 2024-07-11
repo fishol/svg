@@ -178,14 +178,44 @@
         body {
           padding: 10px;
         }
+
         .container {
           padding: 10px;
           width: 90%;
         }
-        h1 {
-          font-size: 1.5em;
-        }
+
+      .button {
+        display: block;
+        background-color: #fff;
+        color: #3cf;
+        border: 2px solid #3cf;
+        padding: 10px 10px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: bold;
+        margin: 0 10px;
+        flex: 1;
+        text-align: center;
       }
+
+      #notification {
+        position: fixed;
+        top: 36.5%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #3cf;
+        color: #fff;
+        padding: 10px 10px;
+        border-radius: 5px;
+        display: none;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        font-size: 15px;
+      }
+
+      }
+      
     </style>
   </head>
   <body>
