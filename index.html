@@ -3,7 +3,7 @@
     <meta charset="UTF-8"> <!-- 设置字符编码为 UTF-8 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 设置视口以适应不同设备宽度 -->
     <meta name="description" content="将任意图片改成SVG格式"/>
-    <meta name="keywords" content="fishol，svg格式"/>
+    <meta name="keywords" content="fishol,svg格式"/>
     <link rel="icon" href="./logo.png">
     <title>SVG格式转换器</title>
 
@@ -37,10 +37,7 @@
       }
 
       #logo {
-        margin: 20px auto 50px;
-        background-size: cover;             /* 背景全覆盖 */
-        background-position: center;        /* 图片居中定位 */
-        background-repeat: no-repeat;       /* 背景不重复 */
+        margin: 50px auto 70px;
       }
 
       #logo img{
@@ -56,7 +53,7 @@
         text-align: center;
         cursor: pointer;
         transition: background-color 0.3s ease;
-        margin-bottom: 50px;
+        margin-bottom: 70px;
       }
 
       #dropzone:hover {
@@ -65,7 +62,6 @@
 
       #dropzone p {
         font-size: 20px;
-        /* font-weight: bold; */
         color: #3cf;
 
       }
@@ -79,6 +75,7 @@
       .button-container {
         display: flex;
         justify-content: center;
+        margin-bottom: 70px;
       }
 
       /* 按钮样式 */
@@ -100,6 +97,7 @@
       .button:hover {
         background-color: #3cf;
         color: #fff;
+        box-shadow: 0 0 10px rgba(51, 204, 255, 0.527);
       }
 
       /* 图+代码 输出结果容器样式 */
@@ -111,19 +109,16 @@
 
       /* SVG预览区域样式 */
       #svgPreview {
-        margin-top: 50px;
         display: flex;
         justify-content: center;
         align-items: center;
         max-width: 100%;
-        overflow: auto;
+        margin-bottom: 70px;
       }
 
       /* SVG代码显示区域样式 */
       #result {
         width: 100%;
-        margin-top: 50px;
-        margin-bottom: 50px;
         border: 2px solid #3cf;
         border-radius: 5px;
         padding: 10px;
@@ -136,6 +131,7 @@
         overflow-x: hidden;       /* 隐藏横向滚动条 */
         overflow-y: auto;
         max-height: 200px;
+        margin-bottom: 70px;
       }
 
       #result:hover {
@@ -145,7 +141,7 @@
       /* 弹出通知 水平+垂直居中 */
       #notification {
         position: fixed;
-        top: 32%;
+        top: 37.3%;
         left: 50%;
         transform: translate(-50%, -50%);
         background-color: #3cf;
@@ -155,6 +151,7 @@
         display: none;
         opacity: 0;
         transition: opacity 0.5s ease;
+        font-size: 20px;
        }
 
       /* 页脚样式 */
@@ -218,7 +215,7 @@
     </div>
 
     <!-- 通知元素 -->
-    <div id="notification">SVG 代码已复制到剪贴板</div>
+    <div id="notification">SVG代码已复制到剪切板</div>
 
     <!-- 页脚 -->
     <footer>
